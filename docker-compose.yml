@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+    postgresdb:
+      container_name: postgress_container
+      image: postgres
+      restart: always
+      environment:
+        POSTGRES_USER: demodbuser
+        POSTGRES_PASSWORD: password
+        POSTGRES_DB: demodb
+      ports:
+        - "5432:5432"
+      volumes:
+        - ~/apps/postgres:/var/lib/postgresql/data
+
+    app:
+      depends_on:
+        - postgresdb
+      build: 
+        context: .
+        dockerfile: Dockerfile
+      ports:
+        - "8089:8089"
+      links: 
+        - postgresdb
+      restart: always

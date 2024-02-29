@@ -1,0 +1,141 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: jdbc:postgresql://localhost:5432/demodb?serverTimezone=Etc/UTC
+    username: demodbuser
+    password: password
+    driverClassName: org.postgresql.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      connectionTimeout: 2000
+      maximum-pool-size: 20
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+        useLocalSessionState: true
+        rewriteBatchedStatements: true
+        cacheResultSetMetadata: true
+        cacheServerConfiguration: true
+        elideSetAutoCommits: true
+        maintainTimeStats: false
+      poolName: spring-boot-hikari-postgres-cp
+      maxLifetime: 1000000
+
+  jpa:
+    database: postgresql
+    hibernate:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      ddl-auto: none
+    generate-ddl: true
+    show-sql: true
+  mvc:
+    dispatch-options-request: true
+  flyway:
+    url: jdbc:postgresql://localhost:5432/demodb?serverTimezone=Etc/UTC
+    user: demodbuser
+    password: password
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+logging:
+  file: logs/demo-services.log
+  level:
+    root: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+server:
+  port: 8089
+  tomcat:
+    accesslog:
+      enabled: true
+      suffix: .log
+      prefix: access_log
+      file-date-format: .yyyy-MM-dd
+      directory: logs
+    basedir: /tmp/tomcat
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+---
+spring:
+  config:
+    activate:
+      on-profile: local-docker
+  datasource:
+    url: jdbc:postgresql://postgresdb:5432/demodb?serverTimezone=Etc/UTC
+    username: demodbuser
+    password: password
+    driverClassName: org.postgresql.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      connectionTimeout: 2000
+      maximum-pool-size: 20
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+        useLocalSessionState: true
+        rewriteBatchedStatements: true
+        cacheResultSetMetadata: true
+        cacheServerConfiguration: true
+        elideSetAutoCommits: true
+        maintainTimeStats: false
+      poolName: spring-boot-hikari-postgres-cp
+      maxLifetime: 1000000
+
+  jpa:
+    database: postgresql
+    hibernate:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      ddl-auto: none
+    generate-ddl: true
+    show-sql: true
+  mvc:
+    dispatch-options-request: true
+  flyway:
+    url: jdbc:postgresql://postgresdb:5432/demodb?serverTimezone=Etc/UTC
+    user: demodbuser
+    password: password
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+logging:
+  file: logs/demo-services.log
+  level:
+    root: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+server:
+  port: 8089
+  tomcat:
+    accesslog:
+      enabled: true
+      suffix: .log
+      prefix: access_log
+      file-date-format: .yyyy-MM-dd
+      directory: logs
+    basedir: /tmp/tomcat
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+jdbc.driverClassName: org.h2.Driver
+jdbc.url: jdbc:h2:mem:myDb;DB_CLOSE_DELAY=-1
+flyway.url: jdbc:h2:mem:myDb;DB_CLOSE_DELAY=-1
+flyway.user: ""
+flyway.password: ""
+hibernate.dialect: org.hibernate.dialect.H2Dialect
+hibernate.hbm2ddl.auto: none
